@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fortnite Pro Config Hub 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="dark"] {
+      --bg: #0a0a0f; --bg-card: #12121a; --bg-card-hover: #1a1a26;
+      --border: #2a2a3d; --purple: #9d4edd; --purple-bright: #c77dff;
+      --blue: #4cc9f0; --green: #2ec4b6; --orange: #ff9f1c; --red: #e63946;
+      --text: #f0f0f5; --text-muted: #a0a0b5; --radius: 12px;
+      --shadow: 0 8px 32px rgba(157,78,221,0.15);
+    }
+    [data-theme="light"] {
+      --bg: #f4f4f8; --bg-card: #ffffff; --bg-card-hover: #f0f0f5;
+      --border: #d0d0e0; --purple: #7b2cbf; --purple-bright: #9d4edd;
+      --blue: #3a86ff; --green: #2a9d8f; --orange: #e76f51; --red: #e63946;
+      --text: #1a1a2e; --text-muted: #5a5a70; --shadow: 0 8px 32px rgba(0,0,0,0.08);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; transition: background .3s, color .3s; }
+    body::before { content:''; position:fixed; inset:0; background: radial-gradient(ellipse at 20% 20%, rgba(157,78,221,.1) 0%, transparent 50%), radial-gradient(ellipse at 80% 80%, rgba(76,201,240,.06) 0%, transparent 50%); pointer-events:none; z-index:0; }
+    .container { max-width:1200px; margin:0 auto; padding:0 16px; position:relative; z-index:1; }
+    header { padding:32px 0 16px; text-align:center; }
+    .logo { font-family:'Orbitron',sans-serif; font-size:clamp(1.6rem,5vw,2.6rem); font-weight:800; background:linear-gradient(135deg,var(--purple-bright),var(--blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:6px; }
+    .subtitle { color:var(--text-muted); font-size:.95rem; max-width:620px; margin:0 auto 16px; }
+    .badge { display:inline-block; background:rgba(157,78,221,.2); border:1px solid var(--purple); color:var(--purple-bright); font-size:.72rem; font-weight:600; padding:3px 10px; border-radius:20px; text-transform:uppercase; }
+    .toolbar { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:16px 0; }
+    .tool-btn { background:var(--bg-card); border:1px solid var(--border); color:var(--text); padding:9px 14px; border-radius:10px; font-weight:600; font-size:.82rem; cursor:pointer; transition:.2s; font-family:inherit; display:inline-flex; align-items:center; gap:6px; }
+    .tool-btn:hover { border-color:var(--purple); background:rgba(157,78,221,.12); }
+    .tool-btn.recording { border-color:var(--red); background:rgba(230,57,70,.2); color:var(--red); animation:pulse 1.5s infinite; }
+    .tool-btn.active-focus { border-color:var(--orange); background:rgba(255,159,28,.15); color:var(--orange); }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.7} }
+    nav { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin:12px 0 32px; position:sticky; top:10px; z-index:100; background:rgba(10,10,15,.92); backdrop-filter:blur(12px); padding:10px; border-radius:14px; border:1px solid var(--border); }
+    [data-theme="light"] nav { background:rgba(255,255,255,.92); }
+    nav a { text-decoration:none; color:var(--text-muted); font-weight:600; font-size:.78rem; padding:7px 11px; border-radius:8px; transition:.2s; border:1px solid transparent; }
+    nav a:hover, nav a.active { color:var(--text); background:rgba(157,78,221,.15); border-color:var(--purple); }
+    section { margin-bottom:50px; scroll-margin-top:80px; }
+    .section-title { font-family:'Orbitron',sans-serif; font-size:1.3rem; font-weight:700; margin-bottom:6px; display:flex; align-items:center; gap:10px; }
+    .section-desc { color:var(--text-muted); margin-bottom:18px; font-size:.9rem; }
+    .grid { display:grid; gap:16px; }
+    .grid-2 { grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); }
+    .grid-3 { grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); }
+    .card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; transition:.25s; }
+    .card:hover { border-color:var(--purple); box-shadow:var(--shadow); }
+    .card h3 { font-size:1.05rem; margin-bottom:12px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .card h4 { font-size:.85rem; color:var(--purple-bright); margin:12px 0 6px; text-transform:uppercase; letter-spacing:.4px; font-weight:700; }
+    .settings-table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    .settings-table td { padding:6px 0; border-bottom:1px solid rgba(42,42,61,.5); }
+    .settings-table td:first-child { color:var(--text-muted); width:55%; }
+    .settings-table td:last-child { font-weight:600; color:var(--green); text-align:right; }
+    .settings-table tr:last-child td { border-bottom:none; }
+    .highlight { background:rgba(157,78,221,.1); border-left:3px solid var(--purple); padding:10px 14px; border-radius:0 8px 8px 0; margin:10px 0; font-size:.88rem; }
+    .highlight.green { background:rgba(46,196,182,.1); border-left-color:var(--green); }
+    .highlight.orange { background:rgba(255,159,28,.1); border-left-color:var(--orange); }
+    .map-code { font-family:'Orbitron',monospace; font-size:1rem; font-weight:700; color:var(--blue); background:rgba(76,201,240,.1); padding:7px 12px; border-radius:8px; display:inline-block; margin:6px 0; letter-spacing:1px; cursor:pointer; transition:.2s; border:1px solid transparent; }
+    .map-code:hover { background:rgba(76,201,240,.2); border-color:var(--blue); }
+    .map-code.copied { background:rgba(46,196,182,.2); color:var(--green); border-color:var(--green); }
+    .tabs { display:flex; gap:6px; margin-bottom:16px; flex-wrap:wrap; }
+    .tab-btn { background:var(--bg-card); border:1px solid var(--border); color:var(--text-muted); padding:8px 14px; border-radius:8px; font-weight:600; font-size:.85rem; cursor:pointer; transition:.2s; font-family:inherit; }
+    .tab-btn:hover { border-color:var(--purple); color:var(--text); }
+    .tab-btn.active { background:linear-gradient(135deg,rgba(157,78,221,.3),rgba(76,201,240,.2)); border-color:var(--purple); color:var(--text); }
+    .tab-content { display:none; } .tab-content.active { display:block; }
+    .btn { padding:9px 16px; border-radius:9px; font-weight:600; font-size:.88rem; cursor:pointer; border:none; font-family:inherit; transition:.2s; }
+    .btn-primary { background:linear-gradient(135deg,var(--purple),var(--blue)); color:#fff; }
+    .btn-primary:hover { opacity:.9; }
+    .btn-danger { background:var(--red); color:#fff; }
+    .btn-secondary { background:var(--bg); border:1px solid var(--border); color:var(--text); }
+    .btn-row { display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; }
+    input[type="number"], input[type="text"], select, textarea { background:var(--bg); border:1px solid var(--border); color:var(--text); padding:9px 12px; border-radius:8px; font-family:inherit; font-size:.9rem; width:100%; }
+    input:focus, select:focus, textarea:focus { outline:none; border-color:var(--purple); }
+    label { font-size:.85rem; color:var(--text-muted); display:block; margin-bottom:4px; }
+    .check-item { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid rgba(42,42,61,.4); cursor:pointer; font-size:.9rem; }
+    .check-item:last-child { border-bottom:none; }
+    .check-item input { width:18px; height:18px; accent-color:var(--purple); cursor:pointer; flex-shrink:0; }
+    .check-item.done span { text-decoration:line-through; color:var(--text-muted); }
+    .timer-display { font-family:'Orbitron',monospace; font-size:2.8rem; font-weight:700; text-align:center; color:var(--purple-bright); margin:12px 0; letter-spacing:2px; }
+    .timer-presets { display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-bottom:12px; }
+    .timer-presets button { padding:6px 12px; font-size:.8rem; }
+    .streak-box { text-align:center; padding:16px; }
+    .streak-num { font-family:'Orbitron',sans-serif; font-size:3rem; font-weight:800; color:var(--orange); }
+    .streak-label { color:var(--text-muted); font-size:.9rem; }
+    #aim-area { position:relative; width:100%; height:280px; background:var(--bg); border:2px solid var(--border); border-radius:12px; overflow:hidden; cursor:crosshair; }
+    .aim-target { position:absolute; border-radius:50%; background:var(--red); cursor:pointer; transition:transform .05s; }
+    .aim-target:hover { transform:scale(1.1); }
+    .aim-stats { display:flex; gap:16px; justify-content:center; margin-top:10px; font-size:.9rem; flex-wrap:wrap; }
+    .aim-stats span { background:var(--bg); padding:6px 12px; border-radius:8px; border:1px solid var(--border); }
+    .video-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; }
+    .video-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
+    .video-card iframe { width:100%; aspect-ratio:16/9; border:none; display:block; }
+    .video-card .info { padding:12px 14px; }
+    .video-card .info h4 { margin:0 0 4px; font-size:.9rem; color:var(--text); text-transform:none; letter-spacing:0; }
+    .video-card .info p { font-size:.78rem; color:var(--text-muted); margin:0; }
+    .tier-row { display:flex; gap:8px; margin-bottom:8px; align-items:stretch; }
+    .tier-label { width:40px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.1rem; border-radius:8px; flex-shrink:0; }
+    .tier-S { background:#ff4655; color:#fff; } .tier-A { background:#ff8c42; color:#fff; }
+    .tier-B { background:#ffc857; color:#1a1a1a; } .tier-C { background:#4cc9f0; color:#1a1a1a; }
+    .tier-items { display:flex; flex-wrap:wrap; gap:6px; flex:1; }
+    .tier-item { background:var(--bg); border:1px solid var(--border); padding:5px 10px; border-radius:6px; font-size:.8rem; font-weight:600; }
+    .player-badge { display:inline-block; font-size:.68rem; font-weight:700; padding:2px 7px; border-radius:5px; margin-left:6px; }
+    .rank-1 { background:linear-gradient(135deg,#ffd700,#ffaa00); color:#1a1a1a; }
+    .rank-2 { background:linear-gradient(135deg,#c0c0c0,#a0a0a0); color:#1a1a1a; }
+    .rank-3 { background:linear-gradient(135deg,#cd7f32,#b87333); color:#fff; }
+    #recording-panel { display:none; position:fixed; bottom:20px; right:20px; background:var(--bg-card); border:1px solid var(--red); border-radius:14px; padding:16px; z-index:1000; box-shadow:0 12px 40px rgba(230,57,70,.3); min-width:260px; }
+    #recording-panel.visible { display:block; }
+    #rec-timer { font-family:'Orbitron',monospace; font-size:1.5rem; font-weight:700; color:var(--red); margin-bottom:10px; }
+    .note-card { background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:10px 12px; margin-bottom:8px; font-size:.88rem; }
+    .note-card .note-meta { font-size:.75rem; color:var(--text-muted); margin-bottom:4px; }
+    body.focus-mode nav, body.focus-mode header .subtitle, body.focus-mode header .badge,
+    body.focus-mode #controller, body.focus-mode #kbm, body.focus-mode #mobile,
+    body.focus-mode #topbuilds, body.focus-mode #conteudo, body.focus-mode #ferramentas,
+    body.focus-mode #videos, body.focus-mode #mapas, body.focus-mode #extras,
+    body.focus-mode footer { display:none !important; }
+    body.focus-mode #treino { display:block !important; }
+    footer { text-align:center; padding:32px 0 50px; color:var(--text-muted); font-size:.82rem; border-top:1px solid var(--border); margin-top:32px; }
+    @media (max-width:600px) { nav a { padding:6px 8px; font-size:.72rem; } .card { padding:16px; } .timer-display { font-size:2.2rem; } #recording-panel { left:12px; right:12px; bottom:12px; } }
+    @media print { nav,.toolbar,#recording-panel,footer,.tool-btn { display:none!important; } body { background:#fff; color:#000; } .card { break-inside:avoid; border:1px solid #ccc; } }
+    ::-webkit-scrollbar { width:7px; } ::-webkit-scrollbar-track { background:var(--bg); } ::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">FORTNITE PRO CONFIG</div>
+    <p class="subtitle">Hub completo: configs, treinos, ferramentas, top pros, aim trainer e muito mais</p>
+    <span class="badge">Setembro 2026 • All-in-One</span>
+  </header>
+
+  <div class="toolbar">
+    <button class="tool-btn" onclick="startRecording()" id="rec-btn">🔴 Gravar</button>
+    <button class="tool-btn" onclick="window.print()">🖨️ Print</button>
+    <button class="tool-btn" onclick="toggleTheme()" id="theme-btn">🌙 Tema</button>
+    <button class="tool-btn" onclick="toggleFocus()" id="focus-btn">🎯 Foco</button>
+    <button class="tool-btn" onclick="exportConfigs()">📤 Exportar</button>
+    <button class="tool-btn" onclick="requestNotify()">🔔 Notificar</button>
+    <button class="tool-btn" onclick="shareDiscord()">💬 Discord</button>
+  </div>
+
+  <nav>
+    <a href="#treino" class="active">Treino</a>
+    <a href="#ferramentas">Ferramentas</a>
+    <a href="#controller">Controle</a>
+    <a href="#kbm">KBM</a>
+    <a href="#mobile">Mobile</a>
+    <a href="#topbuilds">Top Builds</a>
+    <a href="#conteudo">Meta & Tiers</a>
+    <a href="#videos">Vídeos</a>
+    <a href="#mapas">Mapas</a>
+    <a href="#extras">Extras</a>
+  </nav>
+
+  <!-- TREINO -->
+  <section id="treino">
+    <h2 class="section-title"><span>🏋️</span> Centro de Treino</h2>
+    <p class="section-desc">Timer com alarme, checklist diário, streak, desafio do dia e rotinas.</p>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>⏱️ Cronômetro / Timer</h3>
+        <div class="timer-presets">
+          <button class="btn btn-secondary" onclick="setTimer(5)">5 min</button>
+          <button class="btn btn-secondary" onclick="setTimer(10)">10 min</button>
+          <button class="btn btn-secondary" onclick="setTimer(15)">15 min</button>
+          <button class="btn btn-secondary" onclick="setTimer(30)">30 min</button>
+          <button class="btn btn-secondary" onclick="setTimer(60)">60 min</button>
+        </div>
+        <div class="timer-display" id="timer-display">30:00</div>
+        <div class="btn-row" style="justify-content:center">
+          <button class="btn btn-primary" id="timer-start" onclick="toggleTimer()">▶ Iniciar</button>
+          <button class="btn btn-secondary" onclick="resetTimer()">↺ Reset</button>
+        </div>
+        <div class="highlight" style="margin-top:12px;font-size:.82rem">Alarme sonoro + notificação ao finalizar.</div>
+      </div>
+      <div class="card">
+        <h3>🔥 Streak & Desafio do Dia</h3>
+        <div class="streak-box">
+          <div class="streak-num" id="streak-num">0</div>
+          <div class="streak-label">dias seguidos treinando</div>
+        </div>
+        <div class="btn-row" style="justify-content:center">
+          <button class="btn btn-primary" onclick="markTrainedToday()">✅ Marquei treino hoje</button>
+        </div>
+        <h4 style="margin-top:16px">🎯 Desafio do Dia</h4>
+        <div id="daily-challenge" class="highlight green" style="font-size:.9rem"></div>
+        <div class="btn-row">
+          <button class="btn btn-secondary" onclick="completeChallenge()" id="challenge-btn">Concluir Desafio</button>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3>✅ Checklist Diário <small style="font-weight:400;color:var(--text-muted);font-size:.8rem">(salva no navegador)</small></h3>
+      <div id="daily-checklist"></div>
+      <div class="btn-row"><button class="btn btn-secondary" onclick="resetChecklist()">Limpar checklist</button></div>
+    </div>
+    <div style="margin-top:16px">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="t30">30 min</button>
+        <button class="tab-btn" data-tab="t60">1 hora</button>
+        <button class="tab-btn" data-tab="t120">2 horas</button>
+      </div>
+      <div id="t30" class="tab-content active"><div class="card"><h3>⚡ 30 min</h3><ol style="padding-left:20px;font-size:.92rem;line-height:1.9"><li>Aim + Tracking — 8 min</li><li>Edit / Piece Control — 10 min</li><li>Box Fights 2v2 — 10 min</li><li>Freebuild — 2 min</li></ol></div></div>
+      <div id="t60" class="tab-content"><div class="card"><h3>🔥 1 hora</h3><ol style="padding-left:20px;font-size:.92rem;line-height:1.9"><li>Aim + Pre-fire — 12 min</li><li>Mechanics — 15 min</li><li>Piece Control 2v2 — 20 min</li><li>Realistic / Endgame — 10 min</li><li>Freebuild — 3 min</li></ol></div></div>
+      <div id="t120" class="tab-content"><div class="card"><h3>🏆 2 horas</h3><ol style="padding-left:20px;font-size:.92rem;line-height:1.9"><li>Warm-up — 15 min</li><li>Mechanics avançadas — 25 min</li><li>Piece Control + análise — 30 min</li><li>Zone Wars — 25 min</li><li>VOD + Freebuild — 15 min</li><li>Anotações — 10 min</li></ol></div></div>
+    </div>
+  </section>
+
+  <!-- FERRAMENTAS -->
+  <section id="ferramentas">
+    <h2 class="section-title"><span>🛠️</span> Ferramentas</h2>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>📐 Calculadora de eDPI</h3>
+        <label>DPI</label><input type="number" id="edpi-dpi" value="800">
+        <label style="margin-top:8px">Sens in-game (%)</label><input type="number" id="edpi-sens" value="6.4" step="0.1">
+        <div class="btn-row"><button class="btn btn-primary" onclick="calcEdpi()">Calcular</button></div>
+        <div id="edpi-result" class="highlight green" style="margin-top:12px;display:none"></div>
+      </div>
+      <div class="card">
+        <h3>🔄 Conversor de Sens</h3>
+        <label>De</label><select id="conv-from"><option value="fortnite">Fortnite</option><option value="valorant">Valorant</option><option value="cs2">CS2</option><option value="apex">Apex</option></select>
+        <label style="margin-top:8px">Para</label><select id="conv-to"><option value="valorant">Valorant</option><option value="fortnite">Fortnite</option><option value="cs2">CS2</option><option value="apex">Apex</option></select>
+        <label style="margin-top:8px">DPI</label><input type="number" id="conv-dpi" value="800">
+        <label style="margin-top:8px">Sens origem</label><input type="number" id="conv-sens" value="6.4" step="0.01">
+        <div class="btn-row"><button class="btn btn-primary" onclick="convertSens()">Converter</button></div>
+        <div id="conv-result" class="highlight green" style="margin-top:12px;display:none"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3>⌨️ Gerador de Binds</h3>
+      <div class="grid grid-2">
+        <div>
+          <label>Parede</label><input type="text" id="bind-wall" value="Mouse5">
+          <label style="margin-top:6px">Escada</label><input type="text" id="bind-stairs" value="Mouse4">
+          <label style="margin-top:6px">Piso</label><input type="text" id="bind-floor" value="X">
+          <label style="margin-top:6px">Cone</label><input type="text" id="bind-cone" value="C">
+        </div>
+        <div>
+          <label>Editar</label><input type="text" id="bind-edit" value="F">
+          <label style="margin-top:6px">Reset</label><input type="text" id="bind-reset" value="ScrollDown">
+          <label style="margin-top:6px">Trap</label><input type="text" id="bind-trap" value="T">
+          <label style="margin-top:6px">Agachar</label><input type="text" id="bind-crouch" value="Ctrl">
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="generateBinds()">Gerar Layout</button>
+        <button class="btn btn-secondary" onclick="saveBinds()">💾 Salvar</button>
+      </div>
+      <div id="bind-output" class="highlight" style="margin-top:12px;display:none;font-family:monospace;white-space:pre-wrap;font-size:.85rem"></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3>📋 Checklist de Configuração</h3>
+      <div id="config-checklist"></div>
+    </div>
+  </section>
+
+  <!-- CONTROLE -->
+  <section id="controller">
+    <h2 class="section-title"><span>🎮</span> Controle</h2>
+    <div class="grid grid-2">
+      <div class="card"><h3>⚙️ Geral</h3>
+        <table class="settings-table">
+          <tr><td>Config</td><td>Builder Pro</td></tr>
+          <tr><td>Build Immediately</td><td>On</td></tr>
+          <tr><td>Edit Hold</td><td>0.100s</td></tr>
+          <tr><td>Vibração</td><td>Off</td></tr>
+          <tr><td>Turbo Building</td><td>On</td></tr>
+          <tr><td>Confirm on Release</td><td>On</td></tr>
+          <tr><td>Aim Assist</td><td>100%</td></tr>
+        </table>
+      </div>
+      <div class="card"><h3>🎯 Sens Avançada</h3>
+        <table class="settings-table">
+          <tr><td>Curva</td><td>Exponential</td></tr>
+          <tr><td>Look H/V</td><td>40–45%</td></tr>
+          <tr><td>ADS H/V</td><td>8–15%</td></tr>
+          <tr><td>Boost</td><td>0%</td></tr>
+          <tr><td>Build/Edit Mult</td><td>2.0–2.3x</td></tr>
+          <tr><td>Deadzone</td><td>5%</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- KBM -->
+  <section id="kbm">
+    <h2 class="section-title"><span>⌨️</span> Teclado + Mouse</h2>
+    <div class="grid grid-2">
+      <div class="card"><h3>🖱️ Sens</h3>
+        <table class="settings-table">
+          <tr><td>DPI</td><td>800</td></tr>
+          <tr><td>X/Y</td><td>6.0–9.0%</td></tr>
+          <tr><td>eDPI</td><td>48–72</td></tr>
+          <tr><td>Targeting/Scope</td><td>40–50%</td></tr>
+        </table>
+      </div>
+      <div class="card"><h3>⌨️ Binds base</h3>
+        <table class="settings-table">
+          <tr><td>Parede / Escada</td><td>Mouse5 / Mouse4</td></tr>
+          <tr><td>Piso / Cone</td><td>X / Shift</td></tr>
+          <tr><td>Edit / Reset</td><td>F / ScrollDown</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOBILE -->
+  <section id="mobile">
+    <h2 class="section-title"><span>📱</span> Mobile</h2>
+    <div class="grid grid-2">
+      <div class="card"><h3>Gráficos</h3>
+        <table class="settings-table">
+          <tr><td>FPS</td><td>Máximo</td></tr>
+          <tr><td>Preset</td><td>Low/Medium</td></tr>
+          <tr><td>Sombras/AA</td><td>Off</td></tr>
+        </table>
+      </div>
+      <div class="card"><h3>Touch</h3>
+        <table class="settings-table">
+          <tr><td>Look</td><td>35–45%</td></tr>
+          <tr><td>ADS / Scope</td><td>25–35% / 20–30%</td></tr>
+          <tr><td>Turbo / Confirm</td><td>On / On</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOP BUILDS -->
+  <section id="topbuilds">
+    <h2 class="section-title"><span>🏆</span> Builds dos Tops</h2>
+    <div class="grid grid-3">
+      <div class="card"><h3>Sky <span class="player-badge rank-1">#1</span></h3><p style="font-size:.82rem;color:var(--text-muted)">All Gamers • FNCS Majors 2026</p><table class="settings-table"><tr><td>Input</td><td>KBM</td></tr><tr><td>Duo</td><td>Scroll</td></tr></table></div>
+      <div class="card"><h3>Malibuca <span class="player-badge rank-2">#2</span></h3><p style="font-size:.82rem;color:var(--text-muted)">BIG • Summit + EWC</p><table class="settings-table"><tr><td>Input</td><td>KBM</td></tr><tr><td>Duo</td><td>vic0</td></tr></table></div>
+      <div class="card"><h3>Peterbot <span class="player-badge rank-3">Lenda</span></h3><table class="settings-table"><tr><td>DPI/Sens</td><td>800 / 6.4%</td></tr><tr><td>eDPI</td><td>51.2</td></tr><tr><td>Binds</td><td>T Y F V + G</td></tr></table></div>
+      <div class="card"><h3>Clix</h3><table class="settings-table"><tr><td>DPI</td><td>800</td></tr><tr><td>X/Y</td><td>~8.7% / 6.3%</td></tr></table></div>
+      <div class="card"><h3>Veno</h3><table class="settings-table"><tr><td>DPI</td><td>800</td></tr><tr><td>X/Y</td><td>~6.0%</td></tr></table></div>
+      <div class="card"><h3>Curve</h3><p style="font-size:.8rem;color:var(--text-muted)">Top Controller</p><table class="settings-table"><tr><td>Look/Aim</td><td>6 / 2</td></tr><tr><td>Mult</td><td>1.9x / 2.0x</td></tr></table></div>
+      <div class="card"><h3>Scroll</h3><table class="settings-table"><tr><td>Duo</td><td>Sky</td></tr><tr><td>Destaque</td><td>FNCS 2026</td></tr></table></div>
+      <div class="card"><h3>vic0</h3><table class="settings-table"><tr><td>Duo</td><td>Malibuca</td></tr><tr><td>Destaque</td><td>Summit + EWC</td></tr></table></div>
+    </div>
+  </section>
+
+  <!-- META -->
+  <section id="conteudo">
+    <h2 class="section-title"><span>📊</span> Meta, Loadouts & Tiers</h2>
+    <div class="card" style="margin-bottom:16px">
+      <h3>🔫 Loadouts Meta</h3>
+      <div class="grid grid-3" style="margin-top:8px">
+        <div><h4>Aggressive</h4><p style="font-size:.88rem">Shotgun + SMG/AR + Heals + Mobility</p></div>
+        <div><h4>Mid-range</h4><p style="font-size:.88rem">AR + Shotgun + DMR + Heals + Mobility</p></div>
+        <div><h4>Late Game</h4><p style="font-size:.88rem">Shotgun + AR + Heals + Shockwave + Utility</p></div>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <h3>🗺️ Rotação de Mapas</h3>
+      <p style="font-size:.9rem;margin-bottom:8px"><strong>Diário:</strong> MECÂNICA PRO V4 <span class="map-code" style="font-size:.8rem;padding:2px 8px" onclick="copyCode(this)">9235-0277-4070</span> + Piece Control 2v2 <span class="map-code" style="font-size:.8rem;padding:2px 8px" onclick="copyCode(this)">0148-0322-5437</span></p>
+      <p style="font-size:.9rem"><strong>Variedade:</strong> Piece Moving Bots <span class="map-code" style="font-size:.8rem;padding:2px 8px" onclick="copyCode(this)">9510-9643-4467</span> + PANDVIL <span class="map-code" style="font-size:.8rem;padding:2px 8px" onclick="copyCode(this)">8321-0751-6633</span></p>
+    </div>
+    <div class="card">
+      <h3>⚔️ Tier List de Armas</h3>
+      <div class="tier-row"><div class="tier-label tier-S">S</div><div class="tier-items"><span class="tier-item">Shotguns meta</span><span class="tier-item">Heals</span><span class="tier-item">Mobility</span></div></div>
+      <div class="tier-row"><div class="tier-label tier-A">A</div><div class="tier-items"><span class="tier-item">ARs precisas</span><span class="tier-item">SMGs</span><span class="tier-item">Utility</span></div></div>
+      <div class="tier-row"><div class="tier-label tier-B">B</div><div class="tier-items"><span class="tier-item">DMR</span><span class="tier-item">Snipers</span></div></div>
+      <div class="tier-row"><div class="tier-label tier-C">C</div><div class="tier-items"><span class="tier-item">Pistolas</span><span class="tier-item">Itens situacionais</span></div></div>
+    </div>
+  </section>
+
+  <!-- VÍDEOS -->
+  <section id="videos">
+    <h2 class="section-title"><span>🎬</span> Vídeos & VODs</h2>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="vid-tricks">Truques</button>
+      <button class="tab-btn" data-tab="vid-aim">Aim & Edits</button>
+      <button class="tab-btn" data-tab="vid-vods">VODs</button>
+    </div>
+    <div id="vid-tricks" class="tab-content active">
+      <div class="video-grid">
+        <div class="video-card"><iframe src="https://www.youtube.com/embed/8qPW3HEfTUc" allowfullscreen></iframe><div class="info"><h4>8 Piece Control Tips</h4><p>ProGuides</p></div></div>
+        <div class="video-card"><iframe src="https://www.youtube.com/embed/RTejZZi1r5I" allowfullscreen></iframe><div class="info"><h4>Master Piece Control</h4><p>ProGuides</p></div></div>
+        <div class="video-card"><iframe src="https://www.youtube.com/embed/48GWOrcyZdE" allowfullscreen></iframe><div class="info"><h4>MASTER Piece Control</h4><p>Beginner→Advanced</p></div></div>
+        <div class="video-card"><iframe src="https://www.youtube.com/embed/Ybp9JdSkspI" allowfullscreen></iframe><div class="info"><h4>15 Moves Piece Control</h4><p>dolla</p></div></div>
+      </div>
+    </div>
+    <div id="vid-aim" class="tab-content">
+      <div class="video-grid">
+        <div class="video-card"><iframe src="https://www.youtube.com/embed/cKk-lioD7ws" allowfullscreen></iframe><div class="info"><h4>Faster Edits Controller</h4><p>HeroClicker</p></div></div>
+        <div class="video-card"><iframe src="https://www.youtube.com/embed/zzGZ7_HLHIY" allowfullscreen></iframe><div class="info"><h4>Best Controller Aim/Piece</h4><p>dropz</p></div></div>
+      </div>
+    </div>
+    <div id="vid-vods" class="tab-content">
+      <div class="card">
+        <h3>VODs recomendados</h3>
+        <ul style="padding-left:18px;font-size:.9rem;line-height:1.9">
+          <li>Busque “FNCS VOD” + nome do pro</li>
+          <li>Canais: ProGuides, dollafn, dropz, Codelife</li>
+          <li>Foque em endgames de Sky/Scroll e Malibuca/vic0</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAPAS -->
+  <section id="mapas">
+    <h2 class="section-title"><span>🗺️</span> Mapas</h2>
+    <div class="grid grid-2">
+      <div class="card"><h3>🎯 MECÂNICA PRO V4</h3><div class="map-code" onclick="copyCode(this)">9235-0277-4070</div></div>
+      <div class="card"><h3>⚔️ Piece Control 2v2</h3><div class="map-code" onclick="copyCode(this)">0148-0322-5437</div></div>
+      <div class="card"><h3>📦 Piece Moving Bots</h3><div class="map-code" onclick="copyCode(this)">9510-9643-4467</div></div>
+      <div class="card"><h3>🧩 PANDVIL</h3><div class="map-code" onclick="copyCode(this)">8321-0751-6633</div></div>
+    </div>
+  </section>
+
+  <!-- EXTRAS -->
+  <section id="extras">
+    <h2 class="section-title"><span>⚡</span> Extras</h2>
+    <div class="card" style="margin-bottom:16px">
+      <h3>🎯 Aim Trainer (30s)</h3>
+      <div id="aim-area"></div>
+      <div class="aim-stats">
+        <span>Acertos: <strong id="aim-hits">0</strong></span>
+        <span>Erros: <strong id="aim-miss">0</strong></span>
+        <span>Precisão: <strong id="aim-acc">0%</strong></span>
+        <span>Score: <strong id="aim-score">0</strong></span>
+      </div>
+      <div class="btn-row" style="justify-content:center"><button class="btn btn-primary" id="aim-start-btn" onclick="startAim()">Iniciar 30s</button></div>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <h3>🏅 Ranking de Treino</h3>
+      <div style="font-family:'Orbitron',sans-serif;font-size:2rem;color:var(--purple-bright);text-align:center" id="train-score">0</div>
+      <div style="text-align:center;color:var(--text-muted);font-size:.85rem">pontos (streak + desafios + aim)</div>
+      <div class="btn-row" style="justify-content:center"><button class="btn btn-secondary" onclick="updateTrainScore()">Atualizar</button></div>
+    </div>
+    <div class="card">
+      <h3>📝 Notas Pessoais</h3>
+      <label>Título</label><input type="text" id="note-title" placeholder="ex: Piece Control - retakes">
+      <label style="margin-top:8px">Nota</label><textarea id="note-body" rows="3" placeholder="O que melhorar..."></textarea>
+      <div class="btn-row"><button class="btn btn-primary" onclick="addNote()">Salvar nota</button></div>
+      <div id="notes-list" style="margin-top:14px"></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Fortnite Pro Config Hub 2026 • Tudo salvo no navegador (localStorage)<br>Feito para a comunidade competitiva 💜</p>
+  </footer>
+</div>
+
+<div id="recording-panel">
+  <h4 style="color:var(--red);margin:0 0 8px">🔴 Gravando</h4>
+  <div id="rec-timer">00:00</div>
+  <div class="btn-row">
+    <button class="btn btn-danger" onclick="stopRecording()">Parar & Baixar</button>
+    <button class="btn btn-secondary" onclick="cancelRecording()">Cancelar</button>
+  </div>
+</div>
+
+<script>
+const LS = { get:(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch{return d}}, set:(k,v)=>localStorage.setItem(k,JSON.stringify(v)) };
+
+function toggleTheme(){const h=document.documentElement,n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);LS.set('theme',n);document.getElementById('theme-btn').textContent=n==='dark'?'🌙 Tema':'☀️ Tema'}
+(function(){const t=LS.get('theme','dark');document.documentElement.setAttribute('data-theme',t);document.getElementById('theme-btn').textContent=t==='dark'?'🌙 Tema':'☀️ Tema'})();
+
+function toggleFocus(){document.body.classList.toggle('focus-mode');const on=document.body.classList.contains('focus-mode');document.getElementById('focus-btn').classList.toggle('active-focus',on);document.getElementById('focus-btn').textContent=on?'🎯 Sair Foco':'🎯 Foco';if(on)document.getElementById('treino').scrollIntoView({behavior:'smooth'})}
+
+document.querySelectorAll('nav a').forEach(l=>{l.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(l.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'});document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));l.classList.add('active')})});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{btn.addEventListener('click',()=>{const p=btn.closest('section')||document;p.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));p.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));btn.classList.add('active');const el=document.getElementById(btn.dataset.tab);if(el)el.classList.add('active')})});
+
+function copyCode(el){const c=el.textContent.trim();navigator.clipboard.writeText(c).then(()=>{el.classList.add('copied');const o=el.textContent;el.textContent='Copiado!';setTimeout(()=>{el.textContent=o;el.classList.remove('copied')},1400)})}
+
+// TIMER
+let timerSeconds=1800,timerInterval=null,timerRunning=false;
+function updateTimerDisplay(){const m=String(Math.floor(timerSeconds/60)).padStart(2,'0'),s=String(timerSeconds%60).padStart(2,'0');document.getElementById('timer-display').textContent=`${m}:${s}`}
+function setTimer(min){if(timerRunning)return;timerSeconds=min*60;updateTimerDisplay()}
+function toggleTimer(){if(timerRunning){clearInterval(timerInterval);timerRunning=false;document.getElementById('timer-start').textContent='▶ Iniciar'}else{if(timerSeconds<=0)timerSeconds=1800;timerRunning=true;document.getElementById('timer-start').textContent='⏸ Pausar';timerInterval=setInterval(()=>{timerSeconds--;updateTimerDisplay();if(timerSeconds<=0){clearInterval(timerInterval);timerRunning=false;document.getElementById('timer-start').textContent='▶ Iniciar';playAlarm();if(Notification.permission==='granted')new Notification('Timer finalizado!',{body:'Sessão concluída.'})}},1000)}}
+function resetTimer(){clearInterval(timerInterval);timerRunning=false;timerSeconds=1800;updateTimerDisplay();document.getElementById('timer-start').textContent='▶ Iniciar'}
+function playAlarm(){try{const ctx=new(window.AudioContext||window.webkitAudioContext)();for(let i=0;i<3;i++)setTimeout(()=>{const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=880;g.gain.setValueAtTime(.3,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.01,ctx.currentTime+.4);o.start();o.stop(ctx.currentTime+.4)},i*500)}catch(e){}}
+
+// STREAK
+function getToday(){return new Date().toISOString().slice(0,10)}
+function updateStreakUI(){document.getElementById('streak-num').textContent=LS.get('streak',{count:0}).count}
+function markTrainedToday(){const d=LS.get('streak',{count:0,last:null}),t=getToday();if(d.last===t){alert('Já marcou hoje!');return}const y=new Date();y.setDate(y.getDate()-1);d.count=(d.last===y.toISOString().slice(0,10))?d.count+1:1;d.last=t;LS.set('streak',d);updateStreakUI();updateTrainScore()}
+updateStreakUI();
+
+// CHALLENGE
+const challenges=['Faça 50 edits perfeitos sem errar','Ganhe 10 rounds de Piece Control 2v2','Acerte 30 pre-fires seguidos','Faça 20 high ground retakes limpos','Complete 3 freebuilds de 5 min','Treine cone takes por 15 min','100 builds em sequência sem errar','Vença 5 box fights shotgun only'];
+function loadChallenge(){const t=getToday();let ch=LS.get('challenge',{});if(ch.date!==t){ch={date:t,text:challenges[Math.floor(Math.random()*challenges.length)],done:false};LS.set('challenge',ch)}document.getElementById('daily-challenge').textContent=ch.text+(ch.done?' ✅':'');document.getElementById('challenge-btn').disabled=!!ch.done;document.getElementById('challenge-btn').textContent=ch.done?'Concluído!':'Concluir Desafio'}
+function completeChallenge(){const ch=LS.get('challenge',{});ch.done=true;LS.set('challenge',ch);loadChallenge();updateTrainScore();alert('Desafio concluído! +50 pts')}
+loadChallenge();
+
+// CHECKLISTS
+const checklistItems=['Warm-up de aim (5-10 min)','Edit course / Mechanics','Piece Control 2v2','Realistic / Box fights','Endgame / Zone','VOD review ou anotações'];
+function renderChecklist(){const saved=LS.get('checklist',{}),t=getToday(),data=saved.date===t?saved.items:{};document.getElementById('daily-checklist').innerHTML=checklistItems.map((item,i)=>`<label class="check-item ${data[i]?'done':''}"><input type="checkbox" ${data[i]?'checked':''} onchange="toggleCheck(${i})"><span>${item}</span></label>`).join('')}
+function toggleCheck(i){const s=LS.get('checklist',{date:getToday(),items:{}});if(s.date!==getToday()){s.date=getToday();s.items={}}s.items[i]=!s.items[i];LS.set('checklist',s);renderChecklist()}
+function resetChecklist(){LS.set('checklist',{date:getToday(),items:{}});renderChecklist()}
+renderChecklist();
+
+const configItems=['Performance Mode ativado','VSync desligado','NVIDIA Reflex On+Boost','Sens testada','Keybinds confortáveis','Confirm Edit on Release','Deadzone mínima','HUD Scale ok','Mostrar FPS','Audio competitivo'];
+function renderConfigCheck(){const d=LS.get('configCheck',{});document.getElementById('config-checklist').innerHTML=configItems.map((item,i)=>`<label class="check-item ${d[i]?'done':''}"><input type="checkbox" ${d[i]?'checked':''} onchange="toggleConfigCheck(${i})"><span>${item}</span></label>`).join('')}
+function toggleConfigCheck(i){const d=LS.get('configCheck',{});d[i]=!d[i];LS.set('configCheck',d);renderConfigCheck()}
+renderConfigCheck();
+
+// eDPI & CONVERT
+function calcEdpi(){const dpi=+document.getElementById('edpi-dpi').value||0,sens=+document.getElementById('edpi-sens').value||0,edpi=(dpi*sens/100).toFixed(1);const box=document.getElementById('edpi-result');box.style.display='block';let tip=edpi<40?' (muito baixa)':edpi<55?' (baixa — Peterbot style)':edpi<70?' (média)':' (alta)';box.innerHTML=`<strong>eDPI: ${edpi}</strong>${tip}`}
+const yaw={fortnite:.005555,valorant:.07,cs2:.022,apex:.022};
+function convertSens(){const from=document.getElementById('conv-from').value,to=document.getElementById('conv-to').value,dpi=+document.getElementById('conv-dpi').value||800,sens=+document.getElementById('conv-sens').value||0;let cm360;if(from==='fortnite')cm360=(360/(sens*.005555*dpi))*2.54;else cm360=(360*2.54)/(sens*yaw[from]*dpi);let ns;if(to==='fortnite')ns=(360/(cm360/2.54))/(.005555*dpi);else ns=(360*2.54)/(cm360*yaw[to]*dpi);const box=document.getElementById('conv-result');box.style.display='block';box.innerHTML=`<strong>${to.toUpperCase()}: ${ns.toFixed(3)}</strong> <span style="color:var(--text-muted)">(aprox.)</span>`}
+
+// BINDS
+function generateBinds(){const o=document.getElementById('bind-output');o.style.display='block';o.textContent=`WALL: ${document.getElementById('bind-wall').value}\nSTAIRS: ${document.getElementById('bind-stairs').value}\nFLOOR: ${document.getElementById('bind-floor').value}\nCONE: ${document.getElementById('bind-cone').value}\nEDIT: ${document.getElementById('bind-edit').value}\nRESET: ${document.getElementById('bind-reset').value}\nTRAP: ${document.getElementById('bind-trap').value}\nCROUCH: ${document.getElementById('bind-crouch').value}`}
+function saveBinds(){generateBinds();const d={};['wall','stairs','floor','cone','edit','reset','trap','crouch'].forEach(k=>d[k]=document.getElementById('bind-'+k).value);LS.set('myBinds',d);alert('Binds salvas!')}
+(function(){const b=LS.get('myBinds',null);if(b)['wall','stairs','floor','cone','edit','reset','trap','crouch'].forEach(k=>{const el=document.getElementById('bind-'+k);if(el&&b[k])el.value=b[k]})})();
+
+// AIM
+let aimActive=false,aimHits=0,aimMiss=0,aimScore=0;
+function startAim(){if(aimActive)return;aimActive=true;aimHits=0;aimMiss=0;aimScore=0;updateAimStats();document.getElementById('aim-start-btn').disabled=true;const area=document.getElementById('aim-area');area.innerHTML='';area.onclick=e=>{if(e.target===area){aimMiss++;updateAimStats()}};spawnTarget();setTimeout(()=>{aimActive=false;document.getElementById('aim-start-btn').disabled=false;area.innerHTML='';LS.set('bestAim',Math.max(LS.get('bestAim',0),aimScore));updateTrainScore();alert(`Score: ${aimScore} | Acertos: ${aimHits}`)},30000)}
+function spawnTarget(){if(!aimActive)return;const area=document.getElementById('aim-area');area.querySelectorAll('.aim-target').forEach(t=>t.remove());const size=28+Math.random()*22,t=document.createElement('div');t.className='aim-target';t.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*(area.clientWidth-size)}px;top:${Math.random()*(area.clientHeight-size)}px`;t.onclick=e=>{e.stopPropagation();aimHits++;aimScore+=Math.round(50-size/2);updateAimStats();spawnTarget()};area.appendChild(t)}
+function updateAimStats(){document.getElementById('aim-hits').textContent=aimHits;document.getElementById('aim-miss').textContent=aimMiss;const tot=aimHits+aimMiss;document.getElementById('aim-acc').textContent=tot?Math.round(aimHits/tot*100)+'%':'0%';document.getElementById('aim-score').textContent=aimScore}
+
+function updateTrainScore(){const streak=LS.get('streak',{count:0}).count||0,ch=LS.get('challenge',{}),best=LS.get('bestAim',0),score=streak*20+(ch.done?50:0)+best;document.getElementById('train-score').textContent=score;LS.set('trainScore',score)}
+updateTrainScore();
+
+// NOTES
+function addNote(){const title=document.getElementById('note-title').value.trim(),body=document.getElementById('note-body').value.trim();if(!title&&!body)return;const notes=LS.get('notes',[]);notes.unshift({title:title||'Sem título',body,date:new Date().toLocaleString('pt-BR')});if(notes.length>30)notes.pop();LS.set('notes',notes);document.getElementById('note-title').value='';document.getElementById('note-body').value='';renderNotes()}
+function renderNotes(){const notes=LS.get('notes',[]);const el=document.getElementById('notes-list');if(!notes.length){el.innerHTML='<p style="color:var(--text-muted);font-size:.85rem">Nenhuma nota.</p>';return}el.innerHTML=notes.map((n,i)=>`<div class="note-card"><div class="note-meta">${n.date} — <strong>${n.title}</strong> <button onclick="deleteNote(${i})" style="float:right;background:none;border:none;color:var(--red);cursor:pointer">✕</button></div><div>${n.body}</div></div>`).join('')}
+function deleteNote(i){const n=LS.get('notes',[]);n.splice(i,1);LS.set('notes',n);renderNotes()}
+renderNotes();
+
+function exportConfigs(){const data={theme:LS.get('theme'),streak:LS.get('streak'),challenge:LS.get('challenge'),checklist:LS.get('checklist'),configCheck:LS.get('configCheck'),myBinds:LS.get('myBinds'),notes:LS.get('notes'),trainScore:LS.get('trainScore'),bestAim:LS.get('bestAim'),exportedAt:new Date().toISOString()};const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));a.download='fortnite-pro-config-backup.json';a.click()}
+function requestNotify(){if(!('Notification' in window)){alert('Não suportado');return}Notification.requestPermission().then(p=>{if(p==='granted')new Notification('Fortnite Pro Config',{body:'Notificações ativadas!'});else alert('Permissão negada')})}
+function shareDiscord(){const t='Minhas configs e treinos no Fortnite Pro Config Hub 2026! 🔥';navigator.clipboard.writeText(t).then(()=>alert('Texto copiado! Cole no Discord.'));window.open('https://discord.com/channels/@me','_blank')}
+
+// RECORDING
+let mediaRecorder=null,recordedChunks=[],recStream=null,recStart=null,recInt=null;
+async function startRecording(){try{recStream=await navigator.mediaDevices.getDisplayMedia({video:{frameRate:30},audio:true});recordedChunks=[];mediaRecorder=new MediaRecorder(recStream,{mimeType:'video/webm;codecs=vp9'});mediaRecorder.ondataavailable=e=>{if(e.data.size)recordedChunks.push(e.data)};mediaRecorder.onstop=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(recordedChunks,{type:'video/webm'}));a.download=`fortnite-treino-${Date.now()}.webm`;a.click();cleanupRec()};mediaRecorder.start(1000);recStart=Date.now();document.getElementById('recording-panel').classList.add('visible');document.getElementById('rec-btn').classList.add('recording');document.getElementById('rec-btn').textContent='🔴 Gravando...';recInt=setInterval(()=>{const e=Math.floor((Date.now()-recStart)/1000);document.getElementById('rec-timer').textContent=String(Math.floor(e/60)).padStart(2,'0')+':'+String(e%60).padStart(2,'0')},200);recStream.getVideoTracks()[0].onended=()=>stopRecording()}catch(err){alert('Erro ao gravar: '+(err.message||'permissão negada'))}}
+function stopRecording(){if(mediaRecorder&&mediaRecorder.state!=='inactive')mediaRecorder.stop();cleanupRec()}
+function cancelRecording(){if(mediaRecorder&&mediaRecorder.state!=='inactive'){mediaRecorder.ondataavailable=null;mediaRecorder.onstop=null;mediaRecorder.stop()}recordedChunks=[];cleanupRec()}
+function cleanupRec(){if(recStream){recStream.getTracks().forEach(t=>t.stop());recStream=null}clearInterval(recInt);document.getElementById('recording-panel').classList.remove('visible');document.getElementById('rec-btn').classList.remove('recording');document.getElementById('rec-btn').textContent='🔴 Gravar'}
+</script>
+</body>
+</html>
