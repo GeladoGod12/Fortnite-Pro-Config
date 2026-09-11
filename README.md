@@ -1,6 +1,6 @@
 # Fortnite Pro Config Hub 2026
 
-Hub competitivo de Fortnite em uma única página HTML: configurações de **controle**, **teclado + mouse** e **mobile**, rotinas de treino, códigos de mapas Creative, vídeos de piece control, builds dos tops e gravação de tela.
+Hub competitivo de Fortnite: configurações de **controle**, **teclado + mouse** e **mobile**, rotinas de treino, mapas Creative, vídeos, builds dos tops, gravação de tela e **IA Coach** (Grok + Gemini).
 
 **Atualizado · Setembro 2026**
 
@@ -8,19 +8,24 @@ Hub competitivo de Fortnite em uma única página HTML: configurações de **con
 
 ## Demonstração
 
-Abra o arquivo `index.html` no navegador (Chrome, Edge ou Firefox recomendados).
+Abra os arquivos no navegador (Chrome, Edge ou Firefox recomendados).
 
 Não precisa de build, servidor Node nem dependências — é HTML, CSS e JavaScript puro.
 
+| Arquivo | O que é |
+|---|---|
+| `index.html` | Hub principal (configs, treinos, mapas, vídeos, tops) |
+| `Tutorial.html` | IA Coach (chat com Grok ou Gemini) |
+
 ---
 
-## Funcionalidades
+## Funcionalidades do Hub (`index.html`)
 
 ### Configurações competitivas
 | Plataforma | Conteúdo |
 |---|---|
 | **Controle** | Builder Pro, sensibilidade avançada (Exponential), deadzone, multiplicadores de build/edit, aim assist |
-| **Teclado + Mouse** | DPI 800, eDPI, sensibilidade, keybinds (mouse buttons, edit, reset) |
+| **Teclado + Mouse** | DPI 800, eDPI, sensibilidade, keybinds |
 | **Mobile** | Gráficos, look/ADS/scope, turbo building |
 | **Vídeo** | Performance Mode, 1080p, NVIDIA Reflex, sombras/AA off |
 
@@ -32,88 +37,122 @@ Não precisa de build, servidor Node nem dependências — é HTML, CSS e JavaSc
 ### Mapas Creative
 Clique no código para copiar:
 - **MECÂNICA PRO V4** — `9235-0277-4070`
-- Piece Control 2v2, Piece Moving Bots, PANDVIL e outros
+- Piece Control 2v2 — `0148-0322-5437`
+- Piece Moving Bots — `9510-9643-4467`
+- PANDVIL Piece Control — `8321-0751-6633`
 
-### Vídeos de truques
-Tutoriais embutidos do YouTube (piece control, edits, mecânicas de pro).
-
-### Tops do mundo
-Cards com estilo e settings de **Sky**, **Malibuca** e **Peterbot** (incluindo binds e sens públicas).
-
-### Ferramentas
-- **Gravar tela** — API nativa do navegador (`getDisplayMedia` + `MediaRecorder`) → download `.webm`
-- **Print / Screenshot** — dicas por sistema operacional
-- **Imprimir página** — versão limpa para PDF
-- **Modal de dicas** — atalhos e uso rápido
+### Vídeos, tops e ferramentas
+- Tutoriais de piece control (YouTube embutido)
+- Builds de **Sky**, **Malibuca** e **Peterbot**
+- Gravar tela → download `.webm`
+- Imprimir / salvar PDF
+- Botão **ℹ️ IA Coach** → abre `Tutorial.html`
 
 ---
 
-## Como usar
+## IA Coach (`Tutorial.html`)
 
-### 1. Abrir o app
-1. Baixe ou clone o repositório.
-2. Abra `index.html` com duplo clique ou arraste para o navegador.
-3. (Opcional) Sirva com um servidor local para HTTPS/recursos restritos:
+Chat focado em Fortnite com suporte a **duas IAs**:
+
+| Provedor | Onde pegar a key | Modelos |
+|---|---|---|
+| **Grok (xAI)** | [console.x.ai](https://console.x.ai) → API Keys | `grok-3` |
+| **Gemini (Google)** | [aistudio.google.com](https://aistudio.google.com) → Get API key | `gemini-2.0-flash`, `1.5-flash`, `1.5-pro` |
+
+### O que a IA faz
+- Monta treinos de 30 min / 1h / 2h
+- Dicas de piece control, aim, box fights, high ground
+- Sugestões de mapas Creative
+- Settings de controle e KBM
+- Ideias de vídeo, títulos, thumbnails e roteiros de Shorts
+- Meta e loadouts
+
+### Como usar a IA
+
+1. Abra `Tutorial.html` (ou clique em **ℹ️ IA Coach** no Hub).
+2. No topo, escolha o provedor: **Grok** ou **Gemini**.
+3. Clique em **🔑 Keys**.
+4. Cole a API key correspondente e salve.
+5. (Gemini) Escolha o modelo no mesmo modal.
+6. Use os atalhos da barra lateral ou digite sua pergunta.
+7. Enter envia · Shift+Enter faz nova linha.
+
+### Atalhos prontos
+- Treino 30 min / 1 hora
+- Melhores mapas
+- Melhorar aim / piece control
+- Ideias de vídeo e roteiro de Short
+- Sens controle / keybinds KBM / meta atual
+
+### Avisos da IA
+- As keys ficam só no **seu navegador** (`localStorage`).
+- Colocar API key no frontend é **apenas para uso pessoal/teste**.
+- Não compartilhe o arquivo HTML com a key salva.
+- Em produção o ideal é um backend/proxy para esconder a key.
+- Uso das APIs consome cota/créditos da sua conta (Grok ou Google).
+
+---
+
+## Como usar o Hub
+
+### 1. Abrir
+1. Baixe os arquivos.
+2. Abra `index.html` no navegador.
+
+(Opcional) Servidor local:
 
 ```bash
-# Python 3
 python -m http.server 8080
-
-# Node (npx)
+# ou
 npx serve .
 ```
 
 Acesse: `http://localhost:8080`
 
 ### 2. Navegar
-Use o menu sticky no topo:
-**Controle · Teclado + Mouse · Mobile · Vídeo · Treinos · Mapas · Vídeos Truques · Top 3 Builds**
+Menu sticky: **Controle · Teclado + Mouse · Mobile · Vídeo · Treinos · Mapas · Vídeos Truques · Top 3 Builds**
 
 ### 3. Aplicar configs
-1. Escolha sua plataforma (controle / KBM / mobile).
+1. Escolha a plataforma.
 2. Ative **Opções Avançadas** no Fortnite quando indicado.
-3. Copie os valores (sens, binds, vídeo).
-4. Ajuste ao conforto — consistência > cópia cega.
+3. Copie os valores e ajuste ao conforto.
 
 ### 4. Treinar
 1. Vá em **Treinos** e escolha 30 min, 1 h ou 2 h.
-2. Copie o código do mapa em **Mapas** (clique no código).
-3. Cole no Creative (Descobrir) e siga a rotina.
+2. Copie o código do mapa em **Mapas**.
+3. Cole no Creative e siga a rotina.
 
 ### 5. Gravar a tela
-1. Clique em **Gravar Tela**.
-2. Escolha a janela/aba/tela e confirme o compartilhamento.
-3. Treine ou jogue.
-4. **Parar & Baixar** gera um arquivo `.webm`.
+1. Clique em **Gravar**.
+2. Escolha a janela/aba e confirme.
+3. **Parar & Baixar** gera o `.webm`.
 
-> Funciona melhor em Chrome, Edge ou Firefox atualizado. Pode exigir HTTPS ou `localhost`.
+> Melhor em Chrome, Edge ou Firefox. Pode exigir HTTPS ou `localhost`.
 
-### 6. Imprimir / salvar PDF
-Use **Imprimir Página** (ou `Ctrl+P` / `Cmd+P`) e escolha “Salvar como PDF”. A navegação e os botões de ferramenta somem na versão impressa.
+### 6. IA Coach
+Clique em **ℹ️ IA Coach** na toolbar ou abra `Tutorial.html` direto.
 
 ---
 
-## Estrutura do projeto
+## Estrutura
 
 ```text
 .
-├── index.html    # App completo (HTML + CSS + JS)
-└── README.md     # Este arquivo
+├── index.html      # Hub principal
+├── Tutorial.html   # IA Coach (Grok + Gemini)
+└── README.md       # Este arquivo
 ```
-
-Tudo está em um único arquivo para facilitar o uso e o deploy estático.
 
 ---
 
 ## Tecnologias
 
-- HTML5
-- CSS3 (variáveis, grid, sticky nav, responsivo)
-- JavaScript (vanilla)
-  - Navegação e abas
-  - Cópia de códigos de mapa (`clipboard` API)
-  - Gravação de tela (`getDisplayMedia`, `MediaRecorder`)
-  - Modais e observer de seções
+- HTML5 + CSS3 (variáveis, grid, sticky nav, responsivo)
+- JavaScript vanilla
+  - Navegação, abas, cópia de códigos
+  - Gravação de tela (`getDisplayMedia` + `MediaRecorder`)
+  - Chat com APIs (xAI Grok + Google Gemini)
+  - `localStorage` para keys e preferências
 
 **Sem frameworks, sem npm, sem build.**
 
@@ -123,69 +162,52 @@ Tudo está em um único arquivo para facilitar o uso e o deploy estático.
 
 | Recurso | Suporte |
 |---|---|
-| Layout e configs | Todos os navegadores modernos |
+| Layout e configs | Navegadores modernos |
 | Copiar código de mapa | Chrome, Edge, Firefox, Safari |
-| Gravação de tela | Chrome, Edge, Firefox (permissão do usuário) |
+| Gravação de tela | Chrome, Edge, Firefox |
+| IA Coach (API) | Chrome, Edge, Firefox (requer internet + key) |
 | Impressão / PDF | Todos |
-
-Mobile: layout responsivo; gravação de tela depende do suporte do navegador no dispositivo.
 
 ---
 
 ## Deploy
 
-Qualquer host estático serve:
+Qualquer host estático:
 
-- **GitHub Pages** — ative Pages na branch com `index.html` na raiz
-- **Netlify / Vercel / Cloudflare Pages** — arraste a pasta ou conecte o repo
-- **itch.io / itch** — upload como HTML
+- GitHub Pages
+- Netlify / Vercel / Cloudflare Pages
+- itch.io
 
-Exemplo GitHub Pages:
-1. Repo público com `index.html` na raiz (ou em `/docs`).
-2. Settings → Pages → Source: branch `main` / pasta `/`.
-3. Acesse `https://SEU_USUARIO.github.io/NOME_DO_REPO/`.
+Coloque `index.html` e `Tutorial.html` na mesma pasta.
+
+> Se for publicar online, **não deixe API keys salvas** no navegador de quem for usar. Cada usuário deve colocar a própria key.
 
 ---
 
 ## Fontes dos dados
 
-Configurações e referências baseadas em dados públicos de:
-
 - Power Rankings e resultados competitivos (2026)
-- Settings divulgados por pros (ex.: Peterbot)
-- Guias e agregadores (ProSettings, setup.gg e similares)
+- Settings públicos de pros (ex.: Peterbot)
+- Guias (ProSettings, setup.gg e similares)
 - Mapas Creative da comunidade
 
-Valores são **pontos de partida**. Sensibilidade e binds devem ser adaptados ao hardware e à preferência pessoal.
+Valores são **pontos de partida**. Adapte ao seu hardware e preferência.
 
 ---
 
 ## Avisos
 
-- Este projeto **não é afiliado** à Epic Games.
+- Não afiliado à Epic Games.
 - Fortnite é marca da Epic Games, Inc.
-- Códigos de mapa e settings de jogadores podem mudar; confira sempre no jogo.
-- A gravação de tela grava o que o navegador compartilhar — respeite privacidade e termos de uso das plataformas.
-
----
-
-## Contribuindo
-
-Sugestões e correções são bem-vindas:
-
-1. Fork do repositório
-2. Branch (`git checkout -b feature/melhoria`)
-3. Commit claro
-4. Pull request
-
-Ideias úteis: novos mapas, settings atualizados de pros, traduções, melhorias de acessibilidade.
+- Códigos de mapa e settings podem mudar.
+- Respeite privacidade ao gravar a tela.
+- API keys são de responsabilidade do usuário (custos e limites das plataformas).
 
 ---
 
 ## Licença
 
-Uso livre para fins educacionais e da comunidade competitiva.  
-Não redistribua como produto pago sem permissão do autor do repositório.
+Uso livre para fins educacionais e da comunidade competitiva.
 
 ---
 
