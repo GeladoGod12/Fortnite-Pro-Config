@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fortnite AI Coach · Tutorial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f; --bg-card: #12121a; --border: #2a2a3d;
+      --purple: #9d4edd; --purple-bright: #c77dff; --blue: #4cc9f0;
+      --green: #2ec4b6; --orange: #ff9f1c; --red: #e63946;
+      --text: #f0f0f5; --text-muted: #a0a0b5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; display: flex; flex-direction: column;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse at 15% 10%, rgba(157,78,221,.14) 0%, transparent 45%),
+        radial-gradient(ellipse at 85% 90%, rgba(76,201,240,.08) 0%, transparent 45%);
+    }
+    header {
+      position: relative; z-index: 10; padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(10,10,15,.9); backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 10px; flex-wrap: wrap;
+    }
+    .brand-logo {
+      font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 1.05rem;
+      background: linear-gradient(135deg, var(--purple-bright), var(--blue));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .brand-sub { font-size: .72rem; color: var(--text-muted); }
+    .header-actions { display: flex; gap: 7px; flex-wrap: wrap; align-items: center; }
+    .provider-select {
+      background: var(--bg-card); border: 1px solid var(--border); color: var(--text);
+      padding: 7px 9px; border-radius: 8px; font-family: inherit; font-size: .8rem; font-weight: 600;
+    }
+    .btn {
+      padding: 7px 11px; border-radius: 8px; font-weight: 600; font-size: .78rem;
+      cursor: pointer; border: none; font-family: inherit; transition: .2s;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 4px;
+    }
+    .btn-secondary { background: var(--bg-card); border: 1px solid var(--border); color: var(--text); }
+    .btn-secondary:hover { border-color: var(--purple); }
+    .btn-primary { background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; }
+    .btn-danger { background: rgba(230,57,70,.15); border: 1px solid var(--red); color: var(--red); }
+    .status-pill {
+      font-size: .7rem; padding: 3px 8px; border-radius: 20px;
+      border: 1px solid var(--border); color: var(--text-muted);
+    }
+    .status-pill.ok { border-color: var(--green); color: var(--green); }
+
+    .main {
+      position: relative; z-index: 1; flex: 1;
+      display: grid; grid-template-columns: 260px 1fr; min-height: 0;
+    }
+    @media (max-width: 860px) {
+      .main { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .sidebar.open {
+        display: block; position: fixed; inset: 0; z-index: 50;
+        background: var(--bg); overflow-y: auto; padding: 16px;
+      }
+    }
+    .sidebar {
+      border-right: 1px solid var(--border); padding: 14px;
+      overflow-y: auto; background: rgba(18,18,26,.55);
+    }
+    .sidebar h3 {
+      font-size: .72rem; text-transform: uppercase; letter-spacing: .5px;
+      color: var(--text-muted); margin-bottom: 7px;
+    }
+    .chip-list { display: flex; flex-direction: column; gap: 5px; margin-bottom: 16px; }
+    .chip {
+      background: var(--bg-card); border: 1px solid var(--border); color: var(--text);
+      padding: 8px 10px; border-radius: 9px; font-size: .8rem; cursor: pointer;
+      text-align: left; transition: .2s; font-family: inherit;
+    }
+    .chip:hover { border-color: var(--purple); background: rgba(157,78,221,.12); }
+
+    .chat-wrap { display: flex; flex-direction: column; min-height: 0; height: calc(100vh - 64px); }
+    .messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 11px; }
+    .msg {
+      max-width: 780px; width: 100%; margin: 0 auto;
+      display: flex; gap: 9px; animation: fadeIn .2s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: none; }
+    }
+    .avatar {
+      width: 30px; height: 30px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; flex-shrink: 0; font-weight: 700;
+    }
+    .avatar.ai { background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; }
+    .avatar.user { background: var(--bg-card); border: 1px solid var(--border); color: var(--purple-bright); }
+    .bubble {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 11px; padding: 10px 13px; font-size: .88rem;
+      line-height: 1.55; flex: 1; white-space: pre-wrap; word-break: break-word;
+    }
+    .msg.user .bubble { background: rgba(157,78,221,.12); border-color: rgba(157,78,221,.35); }
+    .bubble strong { color: var(--purple-bright); }
+    .bubble code { background: rgba(0,0,0,.35); padding: 1px 5px; border-radius: 4px; font-size: .82em; }
+
+    .typing { display: inline-flex; gap: 4px; }
+    .typing span {
+      width: 6px; height: 6px; background: var(--purple-bright); border-radius: 50%;
+      animation: bounce 1.2s infinite;
+    }
+    .typing span:nth-child(2) { animation-delay: .15s; }
+    .typing span:nth-child(3) { animation-delay: .3s; }
+    @keyframes bounce {
+      0%, 80%, 100% { transform: translateY(0); opacity: .4; }
+      40% { transform: translateY(-4px); opacity: 1; }
+    }
+
+    .input-area {
+      border-top: 1px solid var(--border); padding: 11px 14px 14px;
+      background: rgba(10,10,15,.92); backdrop-filter: blur(10px);
+    }
+    .input-box { max-width: 780px; margin: 0 auto; display: flex; gap: 8px; align-items: flex-end; }
+    textarea {
+      flex: 1; background: var(--bg-card); border: 1px solid var(--border);
+      color: var(--text); border-radius: 10px; padding: 10px 12px;
+      font-family: inherit; font-size: .88rem; resize: none;
+      min-height: 44px; max-height: 120px; line-height: 1.4;
+    }
+    textarea:focus { outline: none; border-color: var(--purple); }
+    .send-btn {
+      width: 44px; height: 44px; border-radius: 10px; border: none;
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      color: #fff; font-size: 1.05rem; cursor: pointer; flex-shrink: 0;
+    }
+    .send-btn:disabled { opacity: .45; cursor: not-allowed; }
+    .input-hint {
+      max-width: 780px; margin: 6px auto 0; font-size: .7rem;
+      color: var(--text-muted); text-align: center;
+    }
+
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,.75);
+      z-index: 100; align-items: center; justify-content: center; padding: 14px;
+    }
+    .modal-overlay.visible { display: flex; }
+    .modal {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 18px; max-width: 480px; width: 100%;
+    }
+    .modal h2 { font-size: 1.05rem; margin-bottom: 6px; }
+    .modal p { color: var(--text-muted); font-size: .82rem; margin-bottom: 10px; line-height: 1.5; }
+    .modal label { font-size: .78rem; color: var(--text-muted); display: block; margin-bottom: 3px; }
+    .modal input, .modal select {
+      width: 100%; background: var(--bg); border: 1px solid var(--border);
+      color: var(--text); padding: 9px 10px; border-radius: 8px;
+      font-family: inherit; font-size: .85rem; margin-bottom: 9px;
+    }
+    .modal input:focus, .modal select:focus { outline: none; border-color: var(--purple); }
+    .warn {
+      background: rgba(255,159,28,.1); border-left: 3px solid var(--orange);
+      padding: 8px 10px; border-radius: 0 8px 8px 0; font-size: .78rem; margin-bottom: 10px;
+    }
+    .modal-actions { display: flex; gap: 7px; flex-wrap: wrap; }
+
+    .empty-state {
+      flex: 1; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; text-align: center; padding: 32px 14px; gap: 9px;
+    }
+    .empty-state h2 {
+      font-family: 'Orbitron', sans-serif; font-size: 1.2rem;
+      background: linear-gradient(135deg, var(--purple-bright), var(--blue));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .empty-state p { color: var(--text-muted); max-width: 390px; font-size: .86rem; }
+    .quick-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 7px; max-width: 600px; width: 100%; margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <div class="brand-logo">FORTNITE AI COACH</div>
+      <div class="brand-sub">Treinos · Dicas · Criadores · Grok + Gemini</div>
+    </div>
+    <div class="header-actions">
+      <select class="provider-select" id="provider-select" onchange="onProviderChange()">
+        <option value="grok">Grok (xAI)</option>
+        <option value="gemini">Gemini (Google)</option>
+      </select>
+      <span class="status-pill" id="key-status">Sem key</span>
+      <button class="btn btn-secondary" onclick="toggleSidebar()" id="menu-btn" style="display:none">☰</button>
+      <a class="btn btn-secondary" href="index.html">← Hub</a>
+      <button class="btn btn-secondary" onclick="openKeyModal()">🔑 Keys</button>
+      <button class="btn btn-danger" onclick="clearChat()">Limpar</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <aside class="sidebar" id="sidebar">
+      <h3>Atalhos de treino</h3>
+      <div class="chip-list">
+        <button class="chip" onclick="sendQuick('Monte um treino de 30 minutos focado em piece control e edits')">🏋️ Treino 30 min</button>
+        <button class="chip" onclick="sendQuick('Monte um treino de 1 hora completo (aim, mechanics, piece control e endgame)')">🏋️ Treino 1 hora</button>
+        <button class="chip" onclick="sendQuick('Quais os melhores mapas Creative para treinar piece control em 2026?')">🗺️ Melhores mapas</button>
+        <button class="chip" onclick="sendQuick('Como melhorar meu aim em close range no Fortnite? Dê drills práticos')">🎯 Melhorar aim</button>
+        <button class="chip" onclick="sendQuick('Explique 5 moves de piece control que pros usam e como treinar cada um')">⚔️ Piece control</button>
+      </div>
+      <h3>Para criadores</h3>
+      <div class="chip-list">
+        <button class="chip" onclick="sendQuick('Me dê 10 ideias de vídeo para YouTube sobre Fortnite competitivo em 2026')">🎬 Ideias de vídeo</button>
+        <button class="chip" onclick="sendQuick('Como estruturar um vídeo de settings + treino que engaja no YouTube e TikTok?')">📱 Estrutura</button>
+        <button class="chip" onclick="sendQuick('Sugira títulos e thumbnails para um vídeo de piece control')">✨ Títulos / thumbs</button>
+        <button class="chip" onclick="sendQuick('Roteiro curto para um Short/Reels ensinando um move de edit em 30 segundos')">⏱️ Roteiro Short</button>
+      </div>
+      <h3>Configs & meta</h3>
+      <div class="chip-list">
+        <button class="chip" onclick="sendQuick('Qual a melhor sensibilidade de controle para iniciantes em 2026?')">🎮 Sens controle</button>
+        <button class="chip" onclick="sendQuick('Melhores keybinds de KBM para piece control rápido')">⌨️ Keybinds KBM</button>
+        <button class="chip" onclick="sendQuick('Resumo do meta competitivo atual de Fortnite')">📊 Meta atual</button>
+      </div>
+    </aside>
+
+    <div class="chat-wrap">
+      <div class="messages" id="messages">
+        <div class="empty-state" id="empty-state">
+          <h2>Seu coach de Fortnite</h2>
+          <p>Escolha Grok ou Gemini, configure a API key e pergunte sobre treinos, dicas ou ideias de conteúdo.</p>
+          <div class="quick-grid">
+            <button class="chip" onclick="sendQuick('Crie um plano de treino semanal para subir de rank')">📅 Plano semanal</button>
+            <button class="chip" onclick="sendQuick('Estou travado em box fights. O que treinar?')">📦 Box fights</button>
+            <button class="chip" onclick="sendQuick('Ideias de série para canal iniciante de Fortnite')">🚀 Canal iniciante</button>
+            <button class="chip" onclick="sendQuick('Como treinar high ground retakes de forma eficiente?')">🏔️ High ground</button>
+          </div>
+        </div>
+      </div>
+      <div class="input-area">
+        <div class="input-box">
+          <textarea id="user-input" rows="1" placeholder="Pergunte sobre treino, dicas, mapas, conteúdo..." onkeydown="handleKey(event)"></textarea>
+          <button class="send-btn" id="send-btn" onclick="sendMessage()">➤</button>
+        </div>
+        <div class="input-hint">Enter envia · Shift+Enter nova linha · Provedor: <span id="hint-provider">Grok</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="key-modal">
+    <div class="modal">
+      <h2>🔑 Configurar API Keys</h2>
+      <p>Keys ficam só no seu navegador (localStorage). Uso pessoal/teste.</p>
+      <div class="warn">⚠️ Não compartilhe o arquivo com keys salvas. No frontend a key pode ser vista.</div>
+
+      <label>Key do Grok (xAI) — console.x.ai</label>
+      <input type="password" id="key-grok" placeholder="xai-...">
+
+      <label>Key do Gemini — aistudio.google.com</label>
+      <input type="password" id="key-gemini" placeholder="AIza...">
+
+      <label>Modelo Gemini</label>
+      <select id="gemini-model">
+        <option value="gemini-2.0-flash">gemini-2.0-flash (rápido)</option>
+        <option value="gemini-1.5-flash">gemini-1.5-flash</option>
+        <option value="gemini-1.5-pro">gemini-1.5-pro</option>
+      </select>
+
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="saveKeys()">Salvar</button>
+        <button class="btn btn-secondary" onclick="closeKeyModal()">Fechar</button>
+        <button class="btn btn-danger" onclick="clearKeys()">Remover keys</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SYSTEM_PROMPT = `Você é o Fortnite AI Coach, especialista em Fortnite competitivo (2026).
+
+Foco:
+1) Treinos práticos (30 min, 1h, 2h) e mapas Creative
+2) Piece control, edits, aim, box fights, high ground, endgame
+3) Settings de controle, KBM e mobile
+4) Ideias e roteiros para criadores (YouTube, TikTok, Shorts)
+5) Meta e loadouts
+
+Regras:
+- Responda em português do Brasil, claro e direto
+- Dê drills e passos práticos
+- Cite códigos de mapa quando souber (ex: 0148-0322-5437, 9235-0277-4070)
+- Consistência > volume
+- Use listas quando ajudar`;
+
+    let messages = [];
+    let isLoading = false;
+
+    function getProvider() { return localStorage.getItem('ai_provider') || 'grok'; }
+    function setProvider(p) {
+      localStorage.setItem('ai_provider', p);
+      document.getElementById('provider-select').value = p;
+      document.getElementById('hint-provider').textContent = p === 'gemini' ? 'Gemini' : 'Grok';
+      updateKeyStatus();
+    }
+    function onProviderChange() { setProvider(document.getElementById('provider-select').value); }
+
+    function getKey(provider) {
+      return localStorage.getItem(provider === 'gemini' ? 'gemini_api_key' : 'xai_api_key') || '';
+    }
+
+    function updateKeyStatus() {
+      const p = getProvider();
+      const has = !!getKey(p);
+      const el = document.getElementById('key-status');
+      el.textContent = has ? (p === 'gemini' ? 'Gemini OK' : 'Grok OK') : 'Sem key';
+      el.className = 'status-pill' + (has ? ' ok' : '');
+    }
+
+    function openKeyModal() {
+      document.getElementById('key-grok').value = localStorage.getItem('xai_api_key') || '';
+      document.getElementById('key-gemini').value = localStorage.getItem('gemini_api_key') || '';
+      document.getElementById('gemini-model').value = localStorage.getItem('gemini_model') || 'gemini-2.0-flash';
+      document.getElementById('key-modal').classList.add('visible');
+    }
+    function closeKeyModal() { document.getElementById('key-modal').classList.remove('visible'); }
+
+    function saveKeys() {
+      const g = document.getElementById('key-grok').value.trim();
+      const m = document.getElementById('key-gemini').value.trim();
+      const model = document.getElementById('gemini-model').value;
+      if (g) localStorage.setItem('xai_api_key', g); else localStorage.removeItem('xai_api_key');
+      if (m) localStorage.setItem('gemini_api_key', m); else localStorage.removeItem('gemini_api_key');
+      localStorage.setItem('gemini_model', model);
+      updateKeyStatus();
+      closeKeyModal();
+      alert('Keys salvas neste navegador.');
+    }
+    function clearKeys() {
+      localStorage.removeItem('xai_api_key');
+      localStorage.removeItem('gemini_api_key');
+      document.getElementById('key-grok').value = '';
+      document.getElementById('key-gemini').value = '';
+      updateKeyStatus();
+      alert('Keys removidas.');
+    }
+
+    function hideEmpty() {
+      const el = document.getElementById('empty-state');
+      if (el) el.style.display = 'none';
+    }
+
+    function appendMessage(role, content, isHtml = false) {
+      hideEmpty();
+      const box = document.getElementById('messages');
+      const row = document.createElement('div');
+      row.className = 'msg ' + role;
+      const avatar = document.createElement('div');
+      avatar.className = 'avatar ' + (role === 'user' ? 'user' : 'ai');
+      avatar.textContent = role === 'user' ? 'V' : 'AI';
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      if (isHtml) bubble.innerHTML = content; else bubble.textContent = content;
+      row.appendChild(avatar); row.appendChild(bubble);
+      box.appendChild(row);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function showTyping() {
+      hideEmpty();
+      const box = document.getElementById('messages');
+      const row = document.createElement('div');
+      row.className = 'msg assistant'; row.id = 'typing-row';
+      row.innerHTML = '<div class="avatar ai">AI</div><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div>';
+      box.appendChild(row); box.scrollTop = box.scrollHeight;
+    }
+    function removeTyping() { const el = document.getElementById('typing-row'); if (el) el.remove(); }
+
+    function simpleMarkdown(text) {
+      return text
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+        .replace(/`([^`]+)`/g,'<code>$1</code>')
+        .replace(/\n/g,'<br>');
+    }
+
+    async function callGrok(apiKey, history) {
+      const res = await fetch('https://api.x.ai/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+        body: JSON.stringify({
+          model: 'grok-3',
+          messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...history],
+          temperature: 0.7, max_tokens: 1800
+        })
+      });
+      if (!res.ok) {
+        const t = await res.text();
+        throw new Error(res.status === 401 ? 'API key Grok inválida.' : 'Grok erro ' + res.status + ': ' + t.slice(0,160));
+      }
+      const data = await res.json();
+      return data.choices?.[0]?.message?.content || 'Sem resposta.';
+    }
+
+    async function callGemini(apiKey, history) {
+      const model = localStorage.getItem('gemini_model') || 'gemini-2.0-flash';
+      const contents = history.map(m => ({
+        role: m.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: m.content }]
+      }));
+      const body = {
+        system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+        contents,
+        generationConfig: { temperature: 0.7, maxOutputTokens: 1800 }
+      };
+      const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + encodeURIComponent(apiKey);
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      if (!res.ok) {
+        const t = await res.text();
+        throw new Error((res.status === 400 || res.status === 403)
+          ? 'API key Gemini inválida ou modelo indisponível.'
+          : 'Gemini erro ' + res.status + ': ' + t.slice(0,160));
+      }
+      const data = await res.json();
+      return data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sem resposta.';
+    }
+
+    async function sendMessage(presetText) {
+      if (isLoading) return;
+      const input = document.getElementById('user-input');
+      const text = (presetText || input.value).trim();
+      if (!text) return;
+
+      const provider = getProvider();
+      const apiKey = getKey(provider);
+      if (!apiKey) {
+        openKeyModal();
+        alert('Configure a API key de ' + (provider === 'gemini' ? 'Gemini' : 'Grok') + '.');
+        return;
+      }
+
+      input.value = '';
+      autoResize(input);
+      appendMessage('user', text);
+      messages.push({ role: 'user', content: text });
+
+      isLoading = true;
+      document.getElementById('send-btn').disabled = true;
+      showTyping();
+
+      try {
+        const reply = provider === 'gemini'
+          ? await callGemini(apiKey, messages)
+          : await callGrok(apiKey, messages);
+        removeTyping();
+        messages.push({ role: 'assistant', content: reply });
+        appendMessage('assistant', simpleMarkdown(reply), true);
+      } catch (err) {
+        removeTyping();
+        appendMessage('assistant', 'Erro: ' + (err.message || err));
+      }
+
+      isLoading = false;
+      document.getElementById('send-btn').disabled = false;
+    }
+
+    function sendQuick(text) { sendMessage(text); }
+    function handleKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+    }
+    function clearChat() {
+      if (!confirm('Limpar conversa?')) return;
+      messages = [];
+      document.getElementById('messages').innerHTML =
+        '<div class="empty-state" id="empty-state"><h2>Seu coach de Fortnite</h2><p>Escolha Grok ou Gemini, configure a key e pergunte.</p></div>';
+    }
+
+    const ta = document.getElementById('user-input');
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+    }
+    ta.addEventListener('input', () => autoResize(ta));
+
+    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+    if (window.innerWidth <= 860) document.getElementById('menu-btn').style.display = 'inline-flex';
+
+    document.getElementById('provider-select').value = getProvider();
+    document.getElementById('hint-provider').textContent = getProvider() === 'gemini' ? 'Gemini' : 'Grok';
+    updateKeyStatus();
+    if (!getKey(getProvider())) setTimeout(openKeyModal, 300);
+  </script>
+</body>
+</html>
